@@ -86,7 +86,7 @@
       border:0;background:transparent;
       padding:8px 12px;cursor:pointer;font-size:12px;
       color:rgba(255,255,255,.75);
-      min-width:72px; /* English / 日本語でも崩れにくい */
+      min-width:72px;
       white-space:nowrap;
     }
     .lang-toggle button.active{
@@ -208,8 +208,35 @@
 
     .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
     .price{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);border-radius:18px;padding:16px}
-    .price strong{font-size:30px;line-height:1;display:inline-block;margin:4px 0 8px}
     .price p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+
+    /* ✅ USD / JPY 表示 */
+    .price-amount{
+      display:flex;
+      align-items:baseline;
+      gap:10px;
+      flex-wrap:wrap;
+      margin:6px 0 10px;
+      line-height:1;
+    }
+    .money{
+      font-size:30px;
+      font-weight:800;
+      display:inline-flex;
+      align-items:baseline;
+      gap:6px;
+    }
+    .money small{
+      font-size:12px;
+      opacity:.75;
+      font-weight:700;
+      letter-spacing:.08em;
+    }
+    .price-sep{
+      opacity:.55;
+      font-size:18px;
+      font-weight:700;
+    }
 
     .player{
       border-radius:var(--radius-lg);
@@ -475,9 +502,35 @@
           <p class="lead" data-i18n="pricing.lead">Start free and upgrade as your brand grows.</p>
 
           <div class="pricing-grid">
-            <div class="price"><h3 data-i18n="pricing.free.title">Free</h3><strong>$0</strong><p data-i18n="pricing.free.text">Single-file setup and core UI blocks.</p></div>
-            <div class="price"><h3 data-i18n="pricing.plus.title">Forge+</h3><strong>$9</strong><p data-i18n="pricing.plus.text">Extended sections and premium presets.</p></div>
-            <div class="price"><h3 data-i18n="pricing.studio.title">Studio</h3><strong>$29</strong><p data-i18n="pricing.studio.text">Team-ready workflows and brand system tools.</p></div>
+            <div class="price">
+              <h3 data-i18n="pricing.free.title">Free</h3>
+              <div class="price-amount" aria-label="Price in USD and JPY">
+                <span class="money"><span data-i18n="pricing.free.usd">$0</span><small>USD</small></span>
+                <span class="price-sep">/</span>
+                <span class="money"><span data-i18n="pricing.free.jpy">¥0</span><small>JPY</small></span>
+              </div>
+              <p data-i18n="pricing.free.text">Single-file setup and core UI blocks.</p>
+            </div>
+
+            <div class="price">
+              <h3 data-i18n="pricing.plus.title">Forge+</h3>
+              <div class="price-amount" aria-label="Price in USD and JPY">
+                <span class="money"><span data-i18n="pricing.plus.usd">$9</span><small>USD</small></span>
+                <span class="price-sep">/</span>
+                <span class="money"><span data-i18n="pricing.plus.jpy">¥1,500</span><small>JPY</small></span>
+              </div>
+              <p data-i18n="pricing.plus.text">Extended sections and premium presets.</p>
+            </div>
+
+            <div class="price">
+              <h3 data-i18n="pricing.studio.title">Studio</h3>
+              <div class="price-amount" aria-label="Price in USD and JPY">
+                <span class="money"><span data-i18n="pricing.studio.usd">$29</span><small>USD</small></span>
+                <span class="price-sep">/</span>
+                <span class="money"><span data-i18n="pricing.studio.jpy">¥4,500</span><small>JPY</small></span>
+              </div>
+              <p data-i18n="pricing.studio.text">Team-ready workflows and brand system tools.</p>
+            </div>
           </div>
         </div>
       </article>
@@ -552,7 +605,7 @@
   const i18n = {
     en: {
       "lang.en": "English",
-      "lang.ja": "Japanese",
+      "lang.ja": "日本語",
 
       "brand.tagline": "Build premium web experiences.",
       "nav.home": "Home",
@@ -623,6 +676,14 @@
       "pricing.plus.text": "Extended sections and premium presets.",
       "pricing.studio.title": "Studio",
       "pricing.studio.text": "Team-ready workflows and brand system tools.",
+
+      /* ✅ USD / JPY（両方見せる） */
+      "pricing.free.usd": "$0",
+      "pricing.free.jpy": "¥0",
+      "pricing.plus.usd": "$9",
+      "pricing.plus.jpy": "¥1,500",
+      "pricing.studio.usd": "$29",
+      "pricing.studio.jpy": "¥4,500",
 
       "contact.badge": "Contact",
       "contact.title": "Let’s build something bold.",
@@ -721,6 +782,14 @@
       "pricing.plus.text": "拡張セクションと上位プリセットを追加。",
       "pricing.studio.title": "Studio",
       "pricing.studio.text": "チーム運用やブランド管理向け機能。",
+
+      /* ✅ USD / JPY（両方見せる） */
+      "pricing.free.usd": "$0",
+      "pricing.free.jpy": "¥0",
+      "pricing.plus.usd": "$9",
+      "pricing.plus.jpy": "¥1,500",
+      "pricing.studio.usd": "$29",
+      "pricing.studio.jpy": "¥4,500",
 
       "contact.badge": "お問い合わせ",
       "contact.title": "いっしょに、印象に残るサイトを。",

@@ -1,520 +1,1126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lupinus Web Forge</title>
+  <meta name="description" content="Lupinus Web Forge — Single-file cyberpunk website." />
+  <meta name="theme-color" content="#070a12" />
+  <style>
+    :root{
+      --bg:#070a12;
+      --bg2:#050611;
+      --panel:rgba(255,255,255,.06);
+      --panel-soft:rgba(255,255,255,.04);
+      --border:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.94);
+      --muted:rgba(255,255,255,.72);
+      --pink:#ff2aa6;
+      --blue:#2a6bff;
+      --cyan:#29ffd6;
+      --shadow:0 18px 60px rgba(0,0,0,.55);
+      --radius:20px;
+      --radius-lg:26px;
+      --max:1140px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 680px at 14% 8%, rgba(255,42,166,.23), transparent 60%),
+        radial-gradient(980px 620px at 86% 20%, rgba(42,107,255,.24), transparent 62%),
+        radial-gradient(900px 620px at 50% 96%, rgba(41,255,214,.10), transparent 62%),
+        linear-gradient(180deg,var(--bg2),var(--bg));
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit;color:inherit}
+    .container{width:min(var(--max), calc(100% - 40px)); margin:0 auto; position:relative}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
-<!doctype html> <html lang="ja"> <head> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width,initial-scale=1" /> <title>Lupinus Web Forge — Single index.html</title> <meta name="description" content="Lupinus Web Forge — merged single-file site for GitHub Pages." /> <meta name="theme-color" content="#070a12" /> <style> :root{ --bg:#070a12; --bg2:#050611; --panel:rgba(255,255,255,.06); --panel2:rgba(255,255,255,.04); --border:rgba(255,255,255,.12); --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.70); --pink:#ff2aa6; --blue:#2a6bff; --cyan:#29ffd6; --shadow:0 18px 60px rgba(0,0,0,.55); --r:18px; --r2:24px; --max:1120px; }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-  color:var(--text);
-  background:
-    radial-gradient(1100px 650px at 15% 10%, rgba(255,42,166,.22), transparent 60%),
-    radial-gradient(950px 600px at 85% 25%, rgba(42,107,255,.22), transparent 60%),
-    radial-gradient(900px 600px at 50% 95%, rgba(41,255,214,.10), transparent 60%),
-    linear-gradient(180deg,var(--bg2),var(--bg));
-  overflow-x:hidden;
-}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:blur(12px);
+      background:linear-gradient(180deg, rgba(5,6,17,.86), rgba(5,6,17,.42));
+      border-bottom:1px solid rgba(255,255,255,.11);
+    }
+    .topbar-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:14px 0; flex-wrap:wrap;
+    }
+    .brand{display:flex;align-items:center;gap:12px;min-width:220px}
+    .logo{
+      width:38px;height:38px;border-radius:13px;
+      background:
+        radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.55), transparent 72%),
+        linear-gradient(135deg, rgba(255,42,166,1), rgba(42,107,255,1), rgba(41,255,214,.95));
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.18),
+        0 10px 30px rgba(255,42,166,.18),
+        0 10px 30px rgba(42,107,255,.18);
+    }
+    .brand-title{display:flex;flex-direction:column;gap:3px;line-height:1.1}
+    .brand-title strong{font-size:13px;letter-spacing:.18em;text-transform:uppercase}
+    .brand-title span{font-size:12px;color:var(--muted)}
 
-a{color:inherit;text-decoration:none}
-button,input,select,textarea{font:inherit}
-.container{width:min(var(--max), calc(100% - 40px)); margin:0 auto; position:relative}
-.sr-only{
-  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;
-}
+    .nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .nav a{
+      font-size:13px;color:rgba(255,255,255,.8);
+      padding:8px 11px;border-radius:12px;border:1px solid transparent;
+      transition:150ms ease;
+    }
+    .nav a:hover{color:rgba(255,255,255,.96);background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
+    .nav a.active{
+      color:rgba(255,255,255,.98);
+      border-color:rgba(255,42,166,.38);
+      background:linear-gradient(135deg, rgba(255,42,166,.19), rgba(42,107,255,.13));
+      box-shadow:0 10px 30px rgba(255,42,166,.12), 0 10px 30px rgba(42,107,255,.10);
+    }
 
-.topbar{
-  position:sticky;top:0;z-index:20;
-  backdrop-filter:blur(12px);
-  background:linear-gradient(180deg, rgba(5,6,17,.82), rgba(5,6,17,.40));
-  border-bottom:1px solid rgba(255,255,255,.10);
-}
-.topbar-inner{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:14px 0;
-}
+    .lang-toggle{
+      display:inline-flex;
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:12px;
+      overflow:hidden;
+      background:rgba(255,255,255,.04);
+    }
+    .lang-toggle button{
+      border:0;background:transparent;
+      padding:8px 12px;cursor:pointer;font-size:12px;
+      color:rgba(255,255,255,.75);min-width:48px;
+    }
+    .lang-toggle button.active{
+      color:#fff;
+      background:linear-gradient(135deg, rgba(255,42,166,.28), rgba(42,107,255,.2));
+    }
 
-.brand{display:flex;align-items:center;gap:12px;min-width:220px}
-.logo{
-  width:38px;height:38px;border-radius:14px;
-  background:
-    radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.55), transparent 70%),
-    linear-gradient(135deg, rgba(255,42,166,1), rgba(42,107,255,1), rgba(41,255,214,.95));
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.18),
-    0 10px 30px rgba(255,42,166,.18),
-    0 10px 30px rgba(42,107,255,.18);
-}
-.brand-title{display:flex;flex-direction:column;gap:4px;line-height:1.1}
-.brand-title strong{font-size:13px; letter-spacing:.18em; text-transform:uppercase}
-.brand-title span{font-size:12px; color:var(--muted)}
+    .btn{
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.95);
+      padding:10px 14px;border-radius:13px;
+      cursor:pointer;transition:160ms ease;
+      display:inline-flex;align-items:center;gap:9px;
+      user-select:none;white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.22)}
+    .btn-primary{
+      border-color:rgba(255,42,166,.38);
+      background:linear-gradient(135deg, rgba(255,42,166,.25), rgba(42,107,255,.2));
+      box-shadow:0 14px 44px rgba(255,42,166,.12), 0 14px 44px rgba(42,107,255,.1);
+    }
 
-.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.nav a{
-  font-size:13px;color:rgba(255,255,255,.78);
-  padding:8px 10px;border-radius:12px;border:1px solid transparent;
-  transition:150ms ease;
-}
-.nav a:hover{
-  color:rgba(255,255,255,.92);
-  background:rgba(255,255,255,.04);
-  border-color:rgba(255,255,255,.10);
-}
-.nav a.active{
-  color:rgba(255,255,255,.95);
-  border-color:rgba(255,42,166,.35);
-  background:linear-gradient(135deg, rgba(255,42,166,.18), rgba(42,107,255,.12));
-  box-shadow:0 10px 30px rgba(255,42,166,.10), 0 10px 30px rgba(42,107,255,.08);
-}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:12px;color:rgba(255,255,255,.88);
+      border:1px solid rgba(255,255,255,.14);
+      padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.04);
+    }
+    .dot{width:8px;height:8px;border-radius:99px;background:var(--cyan);box-shadow:0 0 18px rgba(41,255,214,.65)}
 
-.btn{
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  color:rgba(255,255,255,.92);
-  padding:10px 14px;border-radius:14px;cursor:pointer;
-  transition:160ms ease;
-  display:inline-flex;align-items:center;gap:10px;user-select:none;
-}
-.btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.20)}
-.btn:active{transform:translateY(0)}
-.btn-primary{
-  border-color:rgba(255,42,166,.35);
-  background:linear-gradient(135deg, rgba(255,42,166,.24), rgba(42,107,255,.18));
-  box-shadow:0 14px 44px rgba(255,42,166,.12), 0 14px 44px rgba(42,107,255,.10);
-}
+    .route-section{display:none;padding:28px 0;animation:fadeIn .18s ease}
+    .route-section.active{display:block}
+    @keyframes fadeIn{from{opacity:.15;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-.pill{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:12px;color:rgba(255,255,255,.85);
-  border:1px solid rgba(255,255,255,.12);
-  padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.04);
-}
-.dot{width:8px;height:8px;border-radius:99px;background:var(--cyan);box-shadow:0 0 18px rgba(41,255,214,.65)}
+    .hero{padding:16px 0 0}
+    .grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:stretch}
 
-.route-section{
-  display:none;
-  padding:26px 0;
-  animation:fadeIn .18s ease;
-}
-.route-section.active{display:block}
-@keyframes fadeIn{from{opacity:.15;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+    .card{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+      overflow:hidden;position:relative;
+    }
+    .card::before{
+      content:"";position:absolute;inset:0;
+      background:
+        radial-gradient(680px 250px at 20% 0%, rgba(255,42,166,.18), transparent 62%),
+        radial-gradient(680px 250px at 80% 0%, rgba(42,107,255,.18), transparent 62%);
+      pointer-events:none;
+    }
+    .card-inner{position:relative;padding:24px}
 
-.hero{padding:34px 0 14px}
-.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}
-.card{
-  border-radius:var(--r2);
-  border:1px solid rgba(255,255,255,.12);
-  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  box-shadow:var(--shadow);
-  overflow:hidden; position:relative;
-}
-.card::before{
-  content:""; position:absolute; inset:0;
-  background:
-    radial-gradient(650px 240px at 20% 0%, rgba(255,42,166,.18), transparent 60%),
-    radial-gradient(650px 240px at 80% 0%, rgba(42,107,255,.18), transparent 60%);
-  pointer-events:none;
-}
-.card-inner{position:relative;padding:22px}
-h1{
-  margin:12px 0 10px;
-  font-size: clamp(30px, 4.3vw, 54px);
-  line-height:1.03;
-  letter-spacing:-.02em;
-}
-h2{margin:0 0 8px;font-size:22px}
-.glow{
-  background:linear-gradient(90deg, var(--pink), var(--blue), var(--cyan));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:0 0 22px rgba(255,42,166,.18), 0 0 26px rgba(42,107,255,.14);
-}
-.lead{margin:0 0 16px;color:rgba(255,255,255,.72);line-height:1.7;max-width:62ch;font-size:15px}
-.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
-.hint{
-  font-size:12px;color:rgba(255,255,255,.72);
-  border:1px solid rgba(255,255,255,.14);
-  padding:6px 10px;border-radius:12px;background:rgba(0,0,0,.22);
-}
+    h1{margin:12px 0 10px;font-size:clamp(30px,4.4vw,56px);line-height:1.03;letter-spacing:-.02em}
+    h2{margin:0 0 10px;font-size:24px}
+    h3{margin:0 0 6px;font-size:15px}
 
-.console{
-  border-radius:var(--r2);
-  border:1px solid rgba(255,255,255,.12);
-  background:linear-gradient(180deg, rgba(10,18,40,.70), rgba(0,0,0,.22));
-  box-shadow:var(--shadow);
-  overflow:hidden; position:relative;
-}
-.console::before{
-  content:""; position:absolute; inset:0;
-  background:
-    radial-gradient(340px 220px at 20% 20%, rgba(41,255,214,.10), transparent 70%),
-    radial-gradient(380px 260px at 70% 10%, rgba(255,42,166,.14), transparent 70%),
-    radial-gradient(420px 280px at 75% 90%, rgba(42,107,255,.12), transparent 70%);
-  pointer-events:none;
-}
-.console-inner{position:relative;padding:16px;height:100%;display:flex;flex-direction:column;gap:12px}
-.console-top{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.10)
-}
-.lights{display:flex;gap:8px;align-items:center}
-.light{width:10px;height:10px;border-radius:99px}
-.l1{background:rgba(255,90,90,.95)}
-.l2{background:rgba(255,204,102,.95)}
-.l3{background:rgba(120,255,122,.95)}
-.console-title{font-size:12px;color:rgba(255,255,255,.78);letter-spacing:.14em;text-transform:uppercase}
-.tag{font-size:12px;color:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.14);padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05)}
-label{font-size:12px;color:rgba(255,255,255,.70);letter-spacing:.10em;text-transform:uppercase;display:block;margin:0 0 6px}
-textarea{
-  width:100%;
-  border-radius:16px;border:1px solid rgba(255,255,255,.14);
-  background:rgba(0,0,0,.22);color:rgba(255,255,255,.92);
-  padding:12px;outline:none;line-height:1.55;resize:vertical;min-height:120px;
-}
-textarea:focus{border-color:rgba(255,42,166,.40);box-shadow:0 0 0 4px rgba(255,42,166,.12)}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
-.row .left,.row .right{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-select{
-  border-radius:14px;border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);color:rgba(255,255,255,.92);
-  padding:10px 12px;outline:none;cursor:pointer;
-}
-.status{font-size:12px;color:rgba(255,255,255,.76);display:flex;align-items:center;gap:8px}
-.mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; min-height:220px}
+    .glow{
+      background:linear-gradient(90deg, var(--pink), var(--blue), var(--cyan));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      text-shadow:0 0 22px rgba(255,42,166,.2), 0 0 26px rgba(42,107,255,.16);
+    }
+    .lead{margin:0 0 16px;color:rgba(255,255,255,.74);line-height:1.72;max-width:64ch;font-size:15px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+    .hint{font-size:12px;color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.14);padding:6px 10px;border-radius:12px;background:rgba(0,0,0,.22)}
 
-.smallgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.mini{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.04);
-  border-radius:18px;
-  padding:14px;
-}
-.mini h3{margin:0 0 6px;font-size:14px}
-.mini p{margin:0;color:rgba(255,255,255,.70);line-height:1.6;font-size:13px}
+    .console{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(10,18,40,.7), rgba(0,0,0,.22));
+      box-shadow:var(--shadow);
+      overflow:hidden;position:relative;
+    }
+    .console::before{
+      content:"";position:absolute;inset:0;
+      background:
+        radial-gradient(340px 220px at 20% 20%, rgba(41,255,214,.10), transparent 70%),
+        radial-gradient(380px 260px at 70% 10%, rgba(255,42,166,.14), transparent 70%),
+        radial-gradient(420px 280px at 75% 90%, rgba(42,107,255,.12), transparent 70%);
+      pointer-events:none;
+    }
+    .console-inner{position:relative;padding:16px;height:100%;display:flex;flex-direction:column;gap:12px}
+    .console-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.11)}
+    .lights{display:flex;gap:8px;align-items:center}
+    .light{width:10px;height:10px;border-radius:99px}
+    .l1{background:rgba(255,90,90,.95)} .l2{background:rgba(255,204,102,.95)} .l3{background:rgba(120,255,122,.95)}
+    .console-title{font-size:12px;color:rgba(255,255,255,.82);letter-spacing:.14em;text-transform:uppercase}
+    .tag{font-size:12px;color:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.14);padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05)}
 
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.price{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.04);
-  border-radius:18px;
-  padding:16px;
-}
-.price strong{font-size:28px;line-height:1}
-.price p{margin:8px 0 0;color:var(--muted)}
+    label{font-size:12px;color:rgba(255,255,255,.74);letter-spacing:.09em;text-transform:uppercase;display:block;margin:0 0 6px}
+    textarea{
+      width:100%;border-radius:16px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.24);color:rgba(255,255,255,.94);
+      padding:12px;outline:none;line-height:1.55;resize:vertical;min-height:120px;
+    }
+    textarea:focus{border-color:rgba(255,42,166,.42);box-shadow:0 0 0 4px rgba(255,42,166,.13)}
+    input[type="text"], input[type="email"]{
+      width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.24);color:rgba(255,255,255,.94);
+      padding:12px;outline:none;
+    }
+    input[type="text"]:focus, input[type="email"]:focus{border-color:rgba(42,107,255,.44);box-shadow:0 0 0 4px rgba(42,107,255,.13)}
 
-.player{
-  border-radius:var(--r2);
-  border:1px solid rgba(255,255,255,.12);
-  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  box-shadow:var(--shadow);
-  overflow:hidden; position:relative;
-}
-.player::before{
-  content:""; position:absolute; inset:0;
-  background:
-    radial-gradient(520px 240px at 25% 10%, rgba(255,42,166,.12), transparent 60%),
-    radial-gradient(520px 240px at 80% 20%, rgba(42,107,255,.12), transparent 60%),
-    radial-gradient(540px 260px at 55% 110%, rgba(41,255,214,.09), transparent 65%);
-  pointer-events:none;
-}
-.player-inner{position:relative;padding:16px}
-.track{display:flex;gap:12px;align-items:center;padding:6px 2px 14px;border-bottom:1px solid rgba(255,255,255,.10);margin-bottom:12px}
-.art{
-  width:52px;height:52px;border-radius:16px;border:1px solid rgba(255,255,255,.16);
-  background:
-    radial-gradient(16px 16px at 30% 30%, rgba(255,255,255,.55), transparent 70%),
-    linear-gradient(135deg, rgba(255,42,166,.70), rgba(42,107,255,.65));
-  box-shadow:0 18px 44px rgba(255,42,166,.12), 0 18px 44px rgba(42,107,255,.12);
-}
-.track-info{flex:1;min-width:0}
-.track-title{margin:0 0 4px;font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.track-meta{margin:0;color:rgba(255,255,255,.68);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
-.icon-btn{
-  width:44px;height:44px;border-radius:16px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  cursor:pointer;
-  transition:160ms ease;
-  display:grid;place-items:center;
-}
-.icon-btn:hover{transform:translateY(-1px); border-color:rgba(255,42,166,.35); background:rgba(255,255,255,.08)}
-.bar{flex:1;min-width:190px;display:flex;flex-direction:column;gap:8px}
-.time{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.70)}
-input[type="range"]{width:100%; accent-color: var(--pink); cursor:pointer}
-.vol{display:flex;align-items:center;gap:10px;min-width:240px}
-.chip{
-  border:1px solid rgba(255,255,255,.14);
-  padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05);
-  font-size:12px;color:rgba(255,255,255,.80);
-  display:inline-flex;align-items:center;gap:8px;
-}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+    .row .left,.row .right{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
-.contact-form{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.04);
-  border-radius:18px;
-  padding:14px;
-}
-.contact-form input,.contact-form textarea{
-  width:100%;
-  padding:12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(0,0,0,.22);
-  color:var(--text);
-  outline:none;
-}
+    select{
+      border-radius:14px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);color:rgba(255,255,255,.94);
+      padding:10px 12px;outline:none;cursor:pointer;
+    }
 
-footer{
-  padding:28px 0 42px;
-  border-top:1px solid rgba(255,255,255,.08);
-  color:rgba(255,255,255,.72);
-  font-size:13px;
-}
-.footer-row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
-.fine{color:rgba(255,255,255,.58);font-size:12px;line-height:1.6;max-width:75ch;margin:10px 0 0}
+    .status{font-size:12px;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:8px;min-height:22px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;min-height:220px}
 
-.modal{
-  position:fixed; inset:0; z-index:50;
-  display:none;
-  background:rgba(0,0,0,.70);
-  backdrop-filter:blur(10px);
-  padding:16px;
-}
-.modal[aria-hidden="false"]{display:block}
-.modal-panel{
-  width:min(1100px,100%);
-  height:min(760px, calc(100vh - 32px));
-  margin:0 auto;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(10,18,40,.72);
-  box-shadow:0 24px 80px rgba(0,0,0,.60);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-.modal-top{
-  padding:12px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  border-bottom:1px solid rgba(255,255,255,.10);
-}
-iframe{width:100%;height:100%;border:0;background:#fff}
+    .smallgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .mini{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);border-radius:18px;padding:14px}
+    .mini p{margin:0;color:rgba(255,255,255,.72);line-height:1.6;font-size:13px}
 
-@media (max-width:980px){
-  .grid{grid-template-columns:1fr}
-  .nav{display:none}
-  .smallgrid,.pricing-grid{grid-template-columns:1fr}
-  .brand{min-width:auto}
-  .vol{min-width:100%}
-}
-</style> </head> <body> <header class="topbar"> <div class="container"> <div class="topbar-inner"> <a class="brand" href="#home" aria-label="Lupinus Web Forge Home"> <div class="logo" aria-hidden="true"></div> <div class="brand-title"> <strong>LUPINUS WEB FORGE</strong> <span>single-file SPA style</span> </div> </a>
-    <nav class="nav" aria-label="Pages">
-      <a href="#home" data-route="home" class="active">Home</a>
-      <a href="#about" data-route="about">About</a>
-      <a href="#tracks" data-route="tracks">Tracks</a>
-      <a href="#pricing" data-route="pricing">Pricing</a>
-      <a href="#contact" data-route="contact">Contact</a>
-    </nav>
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .price{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);border-radius:18px;padding:16px}
+    .price strong{font-size:30px;line-height:1;display:inline-block;margin:4px 0 8px}
+    .price p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
 
-    <button class="btn btn-primary" id="btnScrollForge" type="button">
-      <span aria-hidden="true">🔥</span><span>Forge</span>
-    </button>
+    .player{
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(255,255,255,.12);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+      overflow:hidden;position:relative;
+    }
+    .player::before{
+      content:"";position:absolute;inset:0;
+      background:
+        radial-gradient(520px 240px at 25% 10%, rgba(255,42,166,.12), transparent 60%),
+        radial-gradient(520px 240px at 80% 20%, rgba(42,107,255,.12), transparent 60%),
+        radial-gradient(540px 260px at 55% 110%, rgba(41,255,214,.09), transparent 65%);
+      pointer-events:none;
+    }
+    .player-inner{position:relative;padding:16px}
+    .track{display:flex;gap:12px;align-items:center;padding:6px 2px 14px;border-bottom:1px solid rgba(255,255,255,.10);margin-bottom:12px}
+    .art{
+      width:52px;height:52px;border-radius:16px;border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(16px 16px at 30% 30%, rgba(255,255,255,.55), transparent 70%),
+        linear-gradient(135deg, rgba(255,42,166,.70), rgba(42,107,255,.65));
+      box-shadow:0 18px 44px rgba(255,42,166,.12), 0 18px 44px rgba(42,107,255,.12);
+    }
+    .track-info{flex:1;min-width:0}
+    .track-title{margin:0 0 4px;font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .track-meta{margin:0;color:rgba(255,255,255,.68);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+    .icon-btn{
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      cursor:pointer;transition:160ms ease;
+      display:inline-flex;align-items:center;gap:8px;
+      border-radius:14px;padding:10px 12px;min-height:44px;
+    }
+    .icon-btn:hover{transform:translateY(-1px);border-color:rgba(255,42,166,.35);background:rgba(255,255,255,.08)}
+
+    .bar{flex:1;min-width:190px;display:flex;flex-direction:column;gap:8px}
+    .time{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.72)}
+    input[type="range"]{width:100%;accent-color:var(--pink);cursor:pointer}
+    .vol{display:flex;align-items:center;gap:10px;min-width:240px}
+    .chip{
+      border:1px solid rgba(255,255,255,.14);
+      padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05);
+      font-size:12px;color:rgba(255,255,255,.82);
+      display:inline-flex;align-items:center;gap:8px;
+    }
+
+    .player-status{
+      margin:12px 0 0;font-size:13px;color:rgba(255,255,255,.8);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      border-radius:12px;padding:8px 10px;
+    }
+    .contact-form{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);border-radius:18px;padding:14px}
+
+    footer{padding:28px 0 42px;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.72);font-size:13px}
+    .footer-row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+    .fine{color:rgba(255,255,255,.6);font-size:12px;line-height:1.6;max-width:75ch;margin:10px 0 0}
+
+    .modal{position:fixed;inset:0;z-index:70;display:none;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);padding:16px}
+    .modal[aria-hidden="false"]{display:block}
+    .modal-panel{
+      width:min(1100px,100%);height:min(760px, calc(100vh - 32px));
+      margin:0 auto;border-radius:18px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(10,18,40,.72);
+      box-shadow:0 24px 80px rgba(0,0,0,.62);
+      overflow:hidden;display:flex;flex-direction:column;
+    }
+    .modal-top{padding:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(255,255,255,.10)}
+    iframe{width:100%;height:100%;border:0;background:#fff}
+
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+      .nav{display:none}
+      .smallgrid,.pricing-grid{grid-template-columns:1fr}
+      .brand{min-width:auto}
+      .vol{min-width:100%}
+      .topbar-inner{justify-content:center}
+    }
+    @media (max-width:640px){
+      .container{width:min(var(--max), calc(100% - 26px))}
+      .btn{padding:10px 12px}
+      .icon-btn{padding:10px}
+      h1{font-size:clamp(28px,9vw,44px)}
+      h2{font-size:22px}
+    }
+  </style>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <a class="brand" href="#home" aria-label="Lupinus Web Forge Home">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand-title">
+          <strong>LUPINUS WEB FORGE</strong>
+          <span data-i18n="brand.tagline">Build premium web experiences.</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#home" data-route="home" data-i18n="nav.home">Home</a>
+        <a href="#about" data-route="about" data-i18n="nav.about">About</a>
+        <a href="#tracks" data-route="tracks" data-i18n="nav.tracks">Tracks</a>
+        <a href="#pricing" data-route="pricing" data-i18n="nav.pricing">Pricing</a>
+        <a href="#contact" data-route="contact" data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div class="lang-toggle" role="group" aria-label="Language switch">
+          <button id="langEn" type="button" aria-pressed="true">EN</button>
+          <button id="langJa" type="button" aria-pressed="false">JA</button>
+        </div>
+        <button class="btn btn-primary" id="btnScrollForge" type="button" aria-label="Open export tools">
+          <span aria-hidden="true">⚒</span><span data-i18n="top.export">Export</span>
+        </button>
+      </div>
+    </div>
   </div>
-</div>
-</header> <main id="main"> <section class="route-section active" id="home" data-route-section="home"> <div class="container"> <section class="hero"> <div class="grid"> <div class="card"> <div class="card-inner"> <span class="pill"><span class="dot" aria-hidden="true"></span>1ファイルで全部</span> <h1>One file. <span class="glow">Many pages.</span></h1> <p class="lead"> もうファイルが多くて困らない！<br> <strong>index.html 1つ</strong>の中で、ページを切り替える方式だよ。 GitHub Pagesに置くだけで世界に公開できる。 </p> <div class="actions"> <button class="btn btn-primary" id="btnForgeNow" type="button"> <span aria-hidden="true">⚒</span><span>Generate (1-file site)</span> </button> <button class="btn" id="btnCopyOutput" type="button"> <span aria-hidden="true">📋</span><span>Copy Output</span> </button> <span class="hint">Tip: まず短いプロンプトでOK</span> </div> </div> </div>
-        <div class="console" id="forge">
-          <div class="console-inner">
-            <div class="console-top">
-              <div class="lights" aria-hidden="true">
-                <div class="light l1"></div><div class="light l2"></div><div class="light l3"></div>
-              </div>
-              <div class="console-title">Forge Console</div>
-              <div class="tag">SINGLE FILE • RULE-BASED</div>
-            </div>
+</header>
 
-            <div>
-              <label for="promptInput">Prompt</label>
-              <textarea id="promptInput" placeholder='例: Cyber neon website for an AI music creator. Strong CTA, clean sections.'></textarea>
-            </div>
-
-            <div class="row">
-              <div class="left">
-                <select id="siteType" aria-label="Site type">
-                  <option value="music" selected>Music</option>
-                  <option value="portfolio">Portfolio</option>
-                  <option value="startup">Startup</option>
-                </select>
-
-                <select id="themeMode" aria-label="Theme">
-                  <option value="dark" selected>Dark</option>
-                  <option value="light">Light</option>
-                </select>
-              </div>
-
-              <div class="right">
-                <div class="status" id="statusLine" aria-live="polite">
-                  <span aria-hidden="true">🧩</span><span>Ready.</span>
-                </div>
+<main id="main">
+  <section class="route-section active" id="home" data-route-section="home" aria-hidden="false">
+    <div class="container">
+      <section class="hero">
+        <div class="grid">
+          <article class="card">
+            <div class="card-inner">
+              <span class="pill"><span class="dot" aria-hidden="true"></span><span data-i18n="home.badge">Single-file website builder</span></span>
+              <h1>
+                <span data-i18n="home.titleA">One file.</span>
+                <span class="glow" data-i18n="home.titleB">Global-ready impact.</span>
+              </h1>
+              <p class="lead" data-i18n="home.lead">
+                Build and ship a polished cyberpunk website from one index.html for GitHub Pages. Clean structure, export tools, and responsive layout included.
+              </p>
+              <div class="actions">
                 <button class="btn btn-primary" id="btnGenerate" type="button">
-                  <span aria-hidden="true">✨</span><span>Generate</span>
+                  <span aria-hidden="true">✨</span><span data-i18n="btn.generate">Generate</span>
+                </button>
+                <button class="btn" id="btnCopyOutput" type="button">
+                  <span aria-hidden="true">📋</span><span data-i18n="btn.copy">Copy</span>
+                </button>
+                <button class="btn" id="btnDownload" type="button">
+                  <span aria-hidden="true">⬇</span><span data-i18n="btn.download">Download</span>
+                </button>
+                <button class="btn" id="btnPreview" type="button">
+                  <span aria-hidden="true">👁</span><span data-i18n="btn.preview">Preview</span>
                 </button>
               </div>
+              <p class="hint" data-i18n="home.tip">Tip: Generate creates a full single-file snapshot.</p>
             </div>
+          </article>
 
-            <div class="row" style="justify-content:flex-start">
-              <button class="btn" id="btnPreview" type="button"><span aria-hidden="true">👁</span><span>Preview</span></button>
-              <button class="btn" id="btnDownload" type="button"><span aria-hidden="true">⬇</span><span>Download HTML</span></button>
-              <button class="btn" id="btnReset" type="button"><span aria-hidden="true">🧼</span><span>Reset</span></button>
-            </div>
-
-            <div>
-              <label for="outputCode">Output HTML (1 file)</label>
-              <textarea id="outputCode" class="mono" readonly spellcheck="false" placeholder="Generateするとここに1ファイルHTMLが出ます"></textarea>
-            </div>
-
-            <p class="fine" style="margin:0">
-              これが「1つにまとめる」最強形。あとからAI(ローカル/Ollama)も追加できる。
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-</section>
-
-<section class="route-section" id="about" data-route-section="about">
-  <div class="container">
-    <div class="card">
-      <div class="card-inner">
-        <span class="pill"><span class="dot" aria-hidden="true"></span>About</span>
-        <h2 style="margin-top:10px;">Lupinus Web Forge について</h2>
-        <p class="lead" style="margin-bottom:10px;">
-          Lupinusは「想像力を形にする」ブランド。Web Forgeはその工房。
-          作品（AI音楽/テンプレ/プロダクト）を世界へ届けるための場所。
-        </p>
-        <div class="smallgrid">
-          <div class="mini"><h3>Fast</h3><p>1ファイルで公開が早い。</p></div>
-          <div class="mini"><h3>Clean</h3><p>すっきりしたUIで高級感。</p></div>
-          <div class="mini"><h3>Expandable</h3><p>あとでAI化しやすい。</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="route-section" id="tracks" data-route-section="tracks">
-  <div class="container">
-    <div class="card">
-      <div class="card-inner">
-        <span class="pill"><span class="dot" aria-hidden="true"></span>Tracks</span>
-        <h2 style="margin-top:10px;">Music Player</h2>
-        <p class="lead" style="margin:0 0 10px;">
-          デモ用の音楽プレイヤー。※自動再生はできないからPlayを押してね。
-        </p>
-
-        <div class="player">
-          <div class="player-inner">
-            <div class="track">
-              <div class="art" aria-hidden="true"></div>
-              <div class="track-info">
-                <p class="track-title" id="trackTitle">Lupinus — Neon Drift</p>
-                <p class="track-meta" id="trackMeta">AI Music • Night City</p>
-              </div>
-              <span class="pill"><span class="dot" aria-hidden="true"></span>Demo</span>
-            </div>
-
-            <div class="controls">
-              <button class="icon-btn" id="playBtn" type="button" aria-label="Play/Pause">
-                <span id="playIcon" aria-hidden="true">▶</span>
-              </button>
-
-              <button class="icon-btn" id="muteBtn" type="button" aria-label="Mute/Unmute">
-                <span id="muteIcon" aria-hidden="true">🔊</span>
-              </button>
-
-              <div class="bar">
-                <div class="time">
-                  <span id="curTime">0:00</span>
-                  <span id="durTime">0:00</span>
+          <aside class="console" id="exportTools">
+            <div class="console-inner">
+              <div class="console-top">
+                <div class="lights" aria-hidden="true">
+                  <div class="light l1"></div><div class="light l2"></div><div class="light l3"></div>
                 </div>
-                <input id="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek" />
+                <div class="console-title" data-i18n="export.title">Export Tools</div>
+                <div class="tag" data-i18n="export.tag">No external dependencies</div>
               </div>
 
-              <div class="vol">
-                <span style="font-size:12px;color:rgba(255,255,255,.70);width:60px;">Volume</span>
-                <input id="volume" type="range" min="0" max="1" value="0.8" step="0.01" aria-label="Volume" />
-                <span class="chip" id="volText">80%</span>
+              <div>
+                <label for="promptInput" data-i18n="export.promptLabel">Prompt</label>
+                <textarea id="promptInput" data-i18n-placeholder="export.promptPlaceholder" placeholder="Describe your ideal website style..."></textarea>
+              </div>
+
+              <div class="row">
+                <div class="left">
+                  <select id="siteType" aria-label="Site type">
+                    <option value="music" data-i18n="type.music">Music</option>
+                    <option value="portfolio" data-i18n="type.portfolio">Portfolio</option>
+                    <option value="startup" data-i18n="type.startup">Startup</option>
+                  </select>
+
+                  <select id="themeMode" aria-label="Theme mode">
+                    <option value="dark" data-i18n="theme.dark">Dark</option>
+                    <option value="light" data-i18n="theme.light">Light</option>
+                  </select>
+                </div>
+
+                <div class="right">
+                  <div class="status" id="statusLine" aria-live="polite" aria-atomic="true">
+                    <span aria-hidden="true">🧩</span><span id="statusText"></span>
+                  </div>
+                  <button class="btn" id="btnReset" type="button">
+                    <span aria-hidden="true">🧼</span><span data-i18n="btn.reset">Reset</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label for="outputCode" data-i18n="export.outputLabel">Output HTML</label>
+                <textarea id="outputCode" class="mono" readonly spellcheck="false" data-i18n-placeholder="export.outputPlaceholder" placeholder="Generated HTML will appear here..."></textarea>
               </div>
             </div>
+          </aside>
 
-            <p class="fine" style="margin:12px 0 0">
-              音ファイルは、このHTMLと同じフォルダに <strong>bgm.mp3</strong> を置くと動くよ。<br>
-              フォルダに置くなら下のコードの <code>audio.src</code> を変更。
-            </p>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="route-section" id="about" data-route-section="about" aria-hidden="true">
+    <div class="container">
+      <article class="card">
+        <div class="card-inner">
+          <span class="pill"><span class="dot" aria-hidden="true"></span><span data-i18n="about.badge">About Lupinus Web Forge</span></span>
+          <h2 style="margin-top:10px;" data-i18n="about.title">Craft web products with style and speed.</h2>
+          <p class="lead" data-i18n="about.lead">
+            Lupinus Web Forge is built for creators who want a premium product feel without heavy setup.
+            One file, clean architecture, and ready-to-extend frontend behavior.
+          </p>
+          <div class="smallgrid">
+            <div class="mini">
+              <h3 data-i18n="about.card1.title">Single-file simplicity</h3>
+              <p data-i18n="about.card1.text">Deploy quickly on GitHub Pages with minimal friction.</p>
+            </div>
+            <div class="mini">
+              <h3 data-i18n="about.card2.title">Cyberpunk identity</h3>
+              <p data-i18n="about.card2.text">Dark neon visual system for a modern global look.</p>
+            </div>
+            <div class="mini">
+              <h3 data-i18n="about.card3.title">Future-ready</h3>
+              <p data-i18n="about.card3.text">Easy to connect with AI, APIs, and advanced workflows later.</p>
+            </div>
           </div>
         </div>
-      </div>
+      </article>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="route-section" id="pricing" data-route-section="pricing">
+  <section class="route-section" id="tracks" data-route-section="tracks" aria-hidden="true">
+    <div class="container">
+      <article class="card">
+        <div class="card-inner">
+          <span class="pill"><span class="dot" aria-hidden="true"></span><span data-i18n="tracks.badge">Music Player UI</span></span>
+          <h2 style="margin-top:10px;" data-i18n="tracks.title">Tracks</h2>
+          <p class="lead" data-i18n="tracks.lead">Autoplay is disabled. Press Play to start audio.</p>
+
+          <div class="player">
+            <div class="player-inner">
+              <div class="track">
+                <div class="art" aria-hidden="true"></div>
+                <div class="track-info">
+                  <p class="track-title" data-i18n="tracks.trackTitle">Lupinus — Neon Drift</p>
+                  <p class="track-meta" data-i18n="tracks.trackMeta">AI Music • Night City</p>
+                </div>
+                <span class="pill"><span class="dot" aria-hidden="true"></span><span data-i18n="tracks.demo">Demo</span></span>
+              </div>
+
+              <div class="controls">
+                <button class="icon-btn" id="playBtn" type="button" aria-label="Play or pause">
+                  <span id="playIcon" aria-hidden="true">▶</span>
+                  <span id="playText"></span>
+                </button>
+
+                <button class="icon-btn" id="muteBtn" type="button" aria-label="Mute or unmute">
+                  <span id="muteIcon" aria-hidden="true">🔊</span>
+                  <span id="muteText"></span>
+                </button>
+
+                <div class="bar">
+                  <div class="time">
+                    <span id="curTime">0:00</span>
+                    <span id="durTime">0:00</span>
+                  </div>
+                  <label class="sr-only" for="seek">Seek</label>
+                  <input id="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek bar" />
+                </div>
+
+                <div class="vol">
+                  <span style="font-size:12px;color:rgba(255,255,255,.74);width:64px;" data-i18n="tracks.volume">Volume</span>
+                  <label class="sr-only" for="volume">Volume</label>
+                  <input id="volume" type="range" min="0" max="1" value="0.8" step="0.01" aria-label="Volume slider" />
+                  <span class="chip" id="volText">80%</span>
+                </div>
+              </div>
+
+              <p class="player-status" id="playerStatus"></p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="route-section" id="pricing" data-route-section="pricing" aria-hidden="true">
+    <div class="container">
+      <article class="card">
+        <div class="card-inner">
+          <span class="pill"><span class="dot" aria-hidden="true"></span><span data-i18n="pricing.badge">Pricing</span></span>
+          <h2 style="margin-top:10px;" data-i18n="pricing.title">Simple plans, clear value.</h2>
+          <p class="lead" data-i18n="pricing.lead">Start free and upgrade as your brand grows.</p>
+
+          <div class="pricing-grid">
+            <div class="price">
+              <h3 data-i18n="pricing.free.title">Free</h3>
+              <strong>$0</strong>
+              <p data-i18n="pricing.free.text">Single-file setup and core UI blocks.</p>
+            </div>
+            <div class="price">
+              <h3 data-i18n="pricing.plus.title">Forge+</h3>
+              <strong>$9</strong>
+              <p data-i18n="pricing.plus.text">Extended sections and premium presets.</p>
+            </div>
+            <div class="price">
+              <h3 data-i18n="pricing.studio.title">Studio</h3>
+              <strong>$29</strong>
+              <p data-i18n="pricing.studio.text">Team-ready workflows and brand system tools.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="route-section" id="contact" data-route-section="contact" aria-hidden="true">
+    <div class="container">
+      <article class="card">
+        <div class="card-inner">
+          <span class="pill"><span class="dot" aria-hidden="true"></span><span data-i18n="contact.badge">Contact</span></span>
+          <h2 style="margin-top:10px;" data-i18n="contact.title">Let’s build something bold.</h2>
+          <p class="lead" data-i18n="contact.lead">Form UI only. Backend can be connected later.</p>
+
+          <div class="contact-form">
+            <label for="name" data-i18n="contact.nameLabel">Name</label>
+            <input id="name" type="text" data-i18n-placeholder="contact.namePlaceholder" placeholder="Your name" />
+
+            <div style="height:10px"></div>
+
+            <label for="email" data-i18n="contact.emailLabel">Email</label>
+            <input id="email" type="email" data-i18n-placeholder="contact.emailPlaceholder" placeholder="you@example.com" />
+
+            <div style="height:10px"></div>
+
+            <label for="msg" data-i18n="contact.msgLabel">Message</label>
+            <textarea id="msg" data-i18n-placeholder="contact.msgPlaceholder" placeholder="Tell us about your project"></textarea>
+
+            <div style="height:10px"></div>
+
+            <button class="btn btn-primary" id="btnContactSend" type="button">
+              <span aria-hidden="true">✉</span><span data-i18n="contact.send">Send</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
   <div class="container">
-    <div class="card">
-      <div class="card-inner">
-        <span class="pill"><span class="dot" aria-hidden="true"></span>Pricing</span>
-        <h2 style="margin-top:10px;">Pricing Plans</h2>
-        <p class="lead" style="margin:0 0 10px;">最初は無料でOK。売れたら強化していく。</p>
-
-        <div class="pricing-grid">
-          <div class="price">
-            <h3>Free</h3>
-            <strong>$0</strong>
-            <p>基本テンプレ＆1ファイル出力</p>
-          </div>
-          <div class="price">
-            <h3>Forge+</h3>
-            <strong>$9</strong>
-            <p>ブロック追加（将来）</p>
-          </div>
-          <div class="price">
-            <h3>Studio</h3>
-            <strong>$29</strong>
-            <p>チーム＆ブランドキット（将来）</p>
+    <div class="footer-row">
+      <div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="logo" aria-hidden="true" style="width:34px;height:34px;border-radius:12px"></div>
+          <div class="brand-title">
+            <strong style="font-size:13px">LUPINUS WEB FORGE</strong>
+            <span data-i18n="footer.subtitle">Single-file cyberpunk product site</span>
           </div>
         </div>
+        <p class="fine" data-i18n="footer.text">Built for creators who want speed, quality, and a global-ready visual identity.</p>
+        <p class="fine">© <span id="year"></span> Lupinus</p>
       </div>
     </div>
   </div>
-</section>
+</footer>
 
-<section class="route-section" id="contact" data-route-section="contact">
-  <div class="container">
-    <div class="card">
-      <div class="card-inner">
-        <span class="pill"><span class="dot" aria-hidden="true"></span>Contact</span>
-        <h2 style="margin-top:10px;">Contact</h2>
-        <p class="lead" style="margin:0 0 10px;">
-          問い合わせフォーム（見た目だけ）。将来送信機能を追加できるよ。
-        </p>
-        <div class="contact-form">
-          <label for="name" style="margin-top:0;">Name</label>
-          <input id="name" type="text" placeholder="Your name" />
-          <div style="height:10px"></div>
-          <label for="msg" style="margin-top:0;">Message</label>
-          <textarea id="msg" placeholder="Your message"></textarea>
-          <div style="height:10px"></div>
-          <button class="btn btn-primary" id="btnContactSend" type="button">
-            <span aria-hidden="true">✉</span><span>Send</span>
-          </button>
+<div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Preview">
+  <div class="modal-panel">
+    <div class="modal-top">
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="lights" aria-hidden="true">
+          <div class="light l1"></div><div class="light l2"></div><div class="light l3"></div>
         </div>
-
-        <p class="fine" style="margin:14px 0 0;">
-          ナビは <code>#home</code> / <code>#about</code> / <code>#tracks</code> / <code>#pricing</code> / <code>#contact</code> のハッシュで移動。
-        </p>
+        <div style="margin-left:10px;color:rgba(255,255,255,.8);font-size:12px;letter-spacing:.12em;text-transform:uppercase" data-i18n="modal.preview">Preview</div>
       </div>
+      <button class="btn" id="btnCloseModal" type="button">
+        <span aria-hidden="true">✖</span><span data-i18n="btn.close">Close</span>
+      </button>
     </div>
+    <iframe id="previewFrame" title="Generated preview"></iframe>
   </div>
-</section>
-</main> <footer> <div class="container"> <div class="footer-row"> <div> <div style="display:flex;gap:10px;align-items:center"> <div class="logo" aria-hidden="true" style="width:34px;height:34px;border-radius:12px"></div> <div class="brand-title"> <strong style="font-size:13px">LUPINUS WEB FORGE</strong> <span>single file • one-page SPA style</span> </div> </div> <p class="fine"> 次の強化：AI化（ローカルOllama）で、文章や構成を自動生成できるようにする。 </p> <p class="fine">© <span id="year"></span> Lupinus</p> </div> <div class="fine"> <a href="#home">Home</a> · <a href="#about">About</a> · <a href="#tracks">Tracks</a> · <a href="#pricing">Pricing</a> · <a href="#contact">Contact</a> </div> </div> </div> </footer> <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Preview"> <div class="modal-panel"> <div class="modal-top"> <div style="display:flex;gap:8px;align-items:center"> <div class="lights" aria-hidden="true"> <div class="light l1"></div><div class="light l2"></div><div class="light l3"></div> </div> <div style="margin-left:10px;color:rgba(255,255,255,.78);font-size:12px;letter-spacing:.12em;text-transform:uppercase"> Preview </div> </div> <button class="btn" id="btnCloseModal" type="button"><span aria-hidden="true">✖</span><span>Close</span></button> </div> <iframe id="previewFrame" title="Generated preview"></iframe> </div> </div> <script> const $ = (id) => document.getElementById(id); function escapeHtml(s){ return String(s) .replaceAll("&","&amp;") .replaceAll("<","&lt;") .replaceAll(">","&gt;") .replaceAll('"',"&quot;") .replaceAll("'","&#039;"); } function setStatus(text, emoji="🧩"){ $("statusLine").innerHTML = `<span aria-hidden="true">${emoji}</span><span>${escapeHtml(text)}</span>`; } function formatTime(sec){ if(!isFinite(sec) || sec < 0) return "0:00"; const m = Math.floor(sec / 60); const s = Math.floor(sec % 60); return `${m}:${String(s).padStart(2,"0")}`; } const ROUTES = ["home","about","tracks","pricing","contact"]; const navLinks = Array.from(document.querySelectorAll(".nav a[data-route]")); const sections = Array.from(document.querySelectorAll("[data-route-section]")); function normalizeRoute(hash){ const value = String(hash || "").replace(/^#/,""); return ROUTES.includes(value) ? value : "home"; } function applyRoute(route, updateHash = true){ const safeRoute = ROUTES.includes(route) ? route : "home"; sections.forEach(sec => { const show = sec.dataset.routeSection === safeRoute; sec.classList.toggle("active", show); sec.setAttribute("aria-hidden", show ? "false" : "true"); }); navLinks.forEach(link => { link.classList.toggle("active", link.dataset.route === safeRoute); }); if(updateHash && location.hash !== `#${safeRoute}`){ location.hash = safeRoute; } window.scrollTo({top:0, behavior:"auto"}); } function onHashChange(){ applyRoute(normalizeRoute(location.hash), false); } window.addEventListener("hashchange", onHashChange); if(!location.hash || !ROUTES.includes(location.hash.replace("#",""))){ location.hash = "#home"; } else { onHashChange(); } $("btnScrollForge").addEventListener("click", () => { applyRoute("home"); setTimeout(() => document.getElementById("forge").scrollIntoView({behavior:"smooth"}), 0); }); function buildSingleFileSite({prompt, type, theme}){ const isDark = theme === "dark"; const bg = isDark ? "#070a12" : "#f6f7fb"; const bg2 = isDark ? "#050611" : "#ffffff"; const text = isDark ? "rgba(255,255,255,0.92)" : "rgba(10,12,16,0.92)"; const muted = isDark ? "rgba(255,255,255,0.70)" : "rgba(10,12,16,0.62)"; const panel = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)"; const border = isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.10)"; const pink = "#ff2aa6"; const blue = "#2a6bff"; const cyan = "#29ffd6"; const closeScriptTag = "</scr" + "ipt>"; const headlineByType = { music: "Release music that feels alive.", portfolio: "Show your work like a future brand.", startup: "Launch fast. Look premium." }; const aboutTextByType = { music: "This site is designed for an AI music creator. Keep it minimal, neon, and conversion-focused.", portfolio: "This site is designed for a creator portfolio. Highlight your best works and keep it clean.", startup: "This site is designed for a startup landing. Clear value, strong CTA, simple sections." }; return `<!doctype html> <html lang="en"> <head> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width,initial-scale=1" /> <title>Lupinus Web Forge — Generated</title> <meta name="description" content="Generated single-file site by Lupinus Web Forge." /> <style> :root{ --bg:${bg}; --bg2:${bg2}; --panel:${panel}; --border:${border}; --text:${text}; --muted:${muted}; --pink:${pink}; --blue:${blue}; --cyan:${cyan}; } *{box-sizing:border-box} html,body{height:100%} body{ margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--text); background: radial-gradient(1100px 650px at 15% 10%, rgba(255,42,166,.18), transparent 60%), radial-gradient(950px 600px at 85% 25%, rgba(42,107,255,.18), transparent 60%), linear-gradient(180deg,var(--bg2),var(--bg)); } a{color:inherit;text-decoration:none} .container{width:min(1120px, calc(100% - 40px)); margin:0 auto} .topbar{ position:sticky;top:0;z-index:10; backdrop-filter:blur(12px); background:linear-gradient(180deg, rgba(5,6,17,.82), rgba(5,6,17,.40)); border-bottom:1px solid rgba(255,255,255,.10); } .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0} .brand{display:flex;align-items:center;gap:12px} .logo{width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg, rgba(255,42,166,1), rgba(42,107,255,1), rgba(41,255,214,.95))} .brand strong{font-size:13px;letter-spacing:.18em;text-transform:uppercase} .brand span{display:block;font-size:12px;color:var(--muted);margin-top:4px} .nav{display:flex;gap:8px;flex-wrap:wrap} .nav a{font-size:13px;color:rgba(255,255,255,.78);padding:8px 10px;border-radius:12px;border:1px solid transparent} .nav a.active{border-color:rgba(255,42,166,.35);background:linear-gradient(135deg, rgba(255,42,166,.18), rgba(42,107,255,.12));color:rgba(255,255,255,.95)} .section{display:none;padding:24px 0} .section.active{display:block} .card{border-radius:24px;border:1px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));overflow:hidden} .card-inner{padding:22px} h1{margin:12px 0 10px;font-size:clamp(30px,4.3vw,54px);line-height:1.03} h2{margin:0 0 8px} .glow{background:linear-gradient(90deg,var(--pink),var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent} .lead{margin:0 0 16px;color:var(--muted);line-height:1.7} .smallgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px} .mini{border:1px solid var(--border);background:rgba(255,255,255,.04);border-radius:18px;padding:14px} .mini h3{margin:0 0 6px;font-size:14px} .mini p{margin:0;color:var(--muted);font-size:13px;line-height:1.6} @media (max-width:980px){.smallgrid{grid-template-columns:1fr}.nav{display:none}} </style> </head> <body> <header class="topbar"> <div class="container"> <div class="topbar-inner"> <a class="brand" href="#home"> <div class="logo" aria-hidden="true"></div> <div><strong>LUPINUS WEB FORGE</strong><span>Generated • ${theme.toUpperCase()} • ${type.toUpperCase()}</span></div> </a> <nav class="nav"> <a href="#home" data-route="home" class="active">Home</a> <a href="#about" data-route="about">About</a> <a href="#tracks" data-route="tracks">Tracks</a> <a href="#pricing" data-route="pricing">Pricing</a> <a href="#contact" data-route="contact">Contact</a> </nav> </div> </div> </header> <main> <section class="section active" id="home" data-route-section="home"> <div class="container"><div class="card"><div class="card-inner"> <h1>${headlineByType[type]} <span class="glow">Forge the web.</span></h1> <p class="lead"><strong>Prompt:</strong> ${escapeHtml(prompt || "—")}</p> </div></div></div> </section> <section class="section" id="about" data-route-section="about"> <div class="container"><div class="card"><div class="card-inner"> <h2>About</h2> <p class="lead">${aboutTextByType[type]}</p> </div></div></div> </section> <section class="section" id="tracks" data-route-section="tracks"> <div class="container"><div class="card"><div class="card-inner"> <h2>Tracks</h2> <p class="lead">Add your music player UI here (later).</p> </div></div></div> </section> <section class="section" id="pricing" data-route-section="pricing"> <div class="container"><div class="card"><div class="card-inner"> <h2>Pricing</h2> <div class="smallgrid"> <div class="mini"><h3>Free</h3><p>$0</p></div> <div class="mini"><h3>Forge+</h3><p>$9</p></div> <div class="mini"><h3>Studio</h3><p>$29</p></div> </div> </div></div></div> </section> <section class="section" id="contact" data-route-section="contact"> <div class="container"><div class="card"><div class="card-inner"> <h2>Contact</h2> <p class="lead">Add a contact form (later).</p> </div></div></div> </section> </main> <script> const ROUTES = ["home","about","tracks","pricing","contact"]; const navLinks = Array.from(document.querySelectorAll(".nav a[data-route]")); const sections = Array.from(document.querySelectorAll("[data-route-section]")); function normalize(hash){ const value = String(hash || "").replace(/^#/,""); return ROUTES.includes(value) ? value : "home"; } function apply(route, updateHash = true){ const safe = ROUTES.includes(route) ? route : "home"; sections.forEach(sec => sec.classList.toggle("active", sec.dataset.routeSection === safe)); navLinks.forEach(link => link.classList.toggle("active", link.dataset.route === safe)); if(updateHash && location.hash !== "#" + safe) location.hash = safe; window.scrollTo({top:0,behavior:"auto"}); } window.addEventListener("hashchange", () => apply(normalize(location.hash), false)); if(!location.hash || !ROUTES.includes(location.hash.replace("#",""))) location.hash = "#home"; else apply(normalize(location.hash), false); ${closeScriptTag} </body> </html>`; } function generate(){ const prompt = $("promptInput").value.trim(); const type = $("siteType").value; const theme = $("themeMode").value; setStatus("Forging 1-file site…", "⚒"); const html = buildSingleFileSite({prompt, type, theme}); $("outputCode").value = html; setStatus("Done. Copy / Preview / Download.", "✅"); } $("btnGenerate").addEventListener("click", generate); $("btnForgeNow").addEventListener("click", () => { if(!$("promptInput").value.trim()){ $("promptInput").value = `Neon cyberpunk website for "Lupinus Web Forge". Dark theme, neon pink glow, deep blue gradients. Keep it clean and premium.`; } applyRoute("home"); generate(); setTimeout(() => document.getElementById("forge").scrollIntoView({behavior:"smooth"}), 0); }); $("btnCopyOutput").addEventListener("click", async () => { const val = $("outputCode").value; if(!val){ setStatus("Generate first.", "⚠️"); return; } try{ await navigator.clipboard.writeText(val); setStatus("Copied!", "📋"); }catch(e){ $("outputCode").focus(); $("outputCode").select(); try{ document.execCommand("copy"); setStatus("Copied (fallback)!", "📋"); }catch(_){ setStatus("Copy failed. Select and copy manually.", "⚠️"); } } }); function openPreview(){ const val = $("outputCode").value; if(!val){ setStatus("Generate first.", "⚠️"); return; } const blob = new Blob([val], {type:"text/html"}); const url = URL.createObjectURL(blob); $("previewFrame").src = url; $("modal").dataset.url = url; $("modal").setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden"; $("btnCloseModal").focus(); } function closePreview(){ const modal = $("modal"); const url = modal.dataset.url; modal.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; $("previewFrame").src = "about:blank"; if(url) URL.revokeObjectURL(url); modal.dataset.url = ""; } $("btnPreview").addEventListener("click", openPreview); $("btnCloseModal").addEventListener("click", closePreview); $("modal").addEventListener("click", (e) => { if(e.target === $("modal")) closePreview(); }); document.addEventListener("keydown", (e) => { if(e.key === "Escape" && $("modal").getAttribute("aria-hidden")==="false") closePreview(); }); $("btnDownload").addEventListener("click", () => { const val = $("outputCode").value; if(!val){ setStatus("Generate first.", "⚠️"); return; } const blob = new Blob([val], {type:"text/html"}); const a = document.createElement("a"); const url = URL.createObjectURL(blob); a.href = url; a.download = "index.html"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); setStatus("Downloaded index.html", "⬇"); }); $("btnReset").addEventListener("click", () => { $("outputCode").value = ""; setStatus("Reset.", "🧼"); }); $("btnContactSend").addEventListener("click", () => { alert("Demo only! (送信機能は後で追加)"); }); const audio = new Audio(); audio.src = "bgm.mp3"; audio.loop = true; audio.preload = "metadata"; audio.volume = 0.8; const playBtn = $("playBtn"); const muteBtn = $("muteBtn"); const seek = $("seek"); const volume = $("volume"); function updatePlayIcon(){ $("playIcon").textContent = audio.paused ? "▶" : "⏸"; } function updateMuteIcon(){ $("muteIcon").textContent = audio.muted ? "🔇" : "🔊"; } function updateVolText(){ $("volText").textContent = `${Math.round(audio.volume * 100)}%`; } playBtn.addEventListener("click", async () => { try{ if(audio.paused) await audio.play(); else audio.pause(); updatePlayIcon(); }catch(e){ alert("音が再生できません。bgm.mp3 の場所/名前を確認してね。"); } }); muteBtn.addEventListener("click", () => { audio.muted = !audio.muted; updateMuteIcon(); }); volume.addEventListener("input", () => { audio.volume = Number(volume.value); audio.muted = (audio.volume === 0); updateVolText(); updateMuteIcon(); }); audio.addEventListener("loadedmetadata", () => { $("durTime").textContent = formatTime(audio.duration); }); audio.addEventListener("timeupdate", () => { if(!isFinite(audio.duration) || audio.duration <= 0) return; const pct = (audio.currentTime / audio.duration) * 100; seek.value = String(pct); $("curTime").textContent = formatTime(audio.currentTime); $("durTime").textContent = formatTime(audio.duration); }); seek.addEventListener("change", () => { if(!isFinite(audio.duration) || audio.duration <= 0) return; audio.currentTime = (Number(seek.value) / 100) * audio.duration; }); updatePlayIcon(); updateMuteIcon(); updateVolText(); $("year").textContent = new Date().getFullYear(); </script> </body> </html>
+</div>
 
+<script>
+  const i18n = {
+    en: {
+      "brand.tagline": "Build premium web experiences.",
+      "nav.home": "Home",
+      "nav.about": "About",
+      "nav.tracks": "Tracks",
+      "nav.pricing": "Pricing",
+      "nav.contact": "Contact",
+      "top.export": "Export",
 
+      "home.badge": "Single-file website builder",
+      "home.titleA": "One file.",
+      "home.titleB": "Global-ready impact.",
+      "home.lead": "Build and ship a polished cyberpunk website from one index.html for GitHub Pages. Clean structure, export tools, and responsive layout included.",
+      "home.tip": "Tip: Generate creates a full single-file snapshot.",
+
+      "btn.generate": "Generate",
+      "btn.copy": "Copy",
+      "btn.download": "Download",
+      "btn.preview": "Preview",
+      "btn.reset": "Reset",
+      "btn.close": "Close",
+
+      "export.title": "Export Tools",
+      "export.tag": "No external dependencies",
+      "export.promptLabel": "Prompt",
+      "export.promptPlaceholder": "Describe your ideal website style...",
+      "export.outputLabel": "Output HTML",
+      "export.outputPlaceholder": "Generated HTML will appear here...",
+
+      "type.music": "Music",
+      "type.portfolio": "Portfolio",
+      "type.startup": "Startup",
+      "theme.dark": "Dark",
+      "theme.light": "Light",
+
+      "about.badge": "About Lupinus Web Forge",
+      "about.title": "Craft web products with style and speed.",
+      "about.lead": "Lupinus Web Forge is built for creators who want a premium product feel without heavy setup. One file, clean architecture, and ready-to-extend frontend behavior.",
+      "about.card1.title": "Single-file simplicity",
+      "about.card1.text": "Deploy quickly on GitHub Pages with minimal friction.",
+      "about.card2.title": "Cyberpunk identity",
+      "about.card2.text": "Dark neon visual system for a modern global look.",
+      "about.card3.title": "Future-ready",
+      "about.card3.text": "Easy to connect with AI, APIs, and advanced workflows later.",
+
+      "tracks.badge": "Music Player UI",
+      "tracks.title": "Tracks",
+      "tracks.lead": "Autoplay is disabled. Press Play to start audio.",
+      "tracks.trackTitle": "Lupinus — Neon Drift",
+      "tracks.trackMeta": "AI Music • Night City",
+      "tracks.demo": "Demo",
+      "tracks.volume": "Volume",
+
+      "player.play": "Play",
+      "player.pause": "Pause",
+      "player.mute": "Mute",
+      "player.unmute": "Unmute",
+      "player.ready": "Ready to play. Press Play to start.",
+      "player.missing": "Audio file not found (bgm.mp3). Add it next to index.html.",
+      "player.playError": "Could not play audio. Please check bgm.mp3.",
+
+      "pricing.badge": "Pricing",
+      "pricing.title": "Simple plans, clear value.",
+      "pricing.lead": "Start free and upgrade as your brand grows.",
+      "pricing.free.title": "Free",
+      "pricing.free.text": "Single-file setup and core UI blocks.",
+      "pricing.plus.title": "Forge+",
+      "pricing.plus.text": "Extended sections and premium presets.",
+      "pricing.studio.title": "Studio",
+      "pricing.studio.text": "Team-ready workflows and brand system tools.",
+
+      "contact.badge": "Contact",
+      "contact.title": "Let’s build something bold.",
+      "contact.lead": "Form UI only. Backend can be connected later.",
+      "contact.nameLabel": "Name",
+      "contact.namePlaceholder": "Your name",
+      "contact.emailLabel": "Email",
+      "contact.emailPlaceholder": "you@example.com",
+      "contact.msgLabel": "Message",
+      "contact.msgPlaceholder": "Tell us about your project",
+      "contact.send": "Send",
+
+      "footer.subtitle": "Single-file cyberpunk product site",
+      "footer.text": "Built for creators who want speed, quality, and a global-ready visual identity.",
+      "modal.preview": "Preview",
+
+      "status.ready": "Ready.",
+      "status.generated": "Generated successfully.",
+      "status.copied": "Copied to clipboard.",
+      "status.copyFailed": "Copy failed. Select text and copy manually.",
+      "status.downloaded": "Downloaded index.html.",
+      "status.contactDemo": "Demo form only. Backend can be added later.",
+      "status.previewNeedGenerate": "Generate first, then open preview.",
+      "status.reset": "Reset completed."
+    },
+    ja: {
+      "brand.tagline": "洗練されたWeb体験を、すばやく。",
+      "nav.home": "ホーム",
+      "nav.about": "概要",
+      "nav.tracks": "トラック",
+      "nav.pricing": "料金",
+      "nav.contact": "お問い合わせ",
+      "top.export": "書き出し",
+
+      "home.badge": "1ファイルWebサイトビルダー",
+      "home.titleA": "ひとつのファイルで。",
+      "home.titleB": "世界に通じる仕上がり。",
+      "home.lead": "GitHub Pages向けに、index.htmlひとつでサイバーパンクなサイトを公開できます。構成はシンプル、書き出し機能つき、スマホ表示も安定です。",
+      "home.tip": "ヒント: Generateで1ファイルの完成形HTMLを作れます。",
+
+      "btn.generate": "生成",
+      "btn.copy": "コピー",
+      "btn.download": "ダウンロード",
+      "btn.preview": "プレビュー",
+      "btn.reset": "リセット",
+      "btn.close": "閉じる",
+
+      "export.title": "書き出しツール",
+      "export.tag": "外部依存なし",
+      "export.promptLabel": "プロンプト",
+      "export.promptPlaceholder": "理想のサイトイメージを書いてください...",
+      "export.outputLabel": "出力HTML",
+      "export.outputPlaceholder": "生成したHTMLがここに表示されます...",
+
+      "type.music": "音楽",
+      "type.portfolio": "ポートフォリオ",
+      "type.startup": "スタートアップ",
+      "theme.dark": "ダーク",
+      "theme.light": "ライト",
+
+      "about.badge": "Lupinus Web Forgeとは",
+      "about.title": "速さと完成度を両立したWeb制作。",
+      "about.lead": "Lupinus Web Forgeは、重い準備なしで“プロダクトらしさ”を出したい人向けの設計です。1ファイル構成で、拡張もしやすくしています。",
+      "about.card1.title": "1ファイルでシンプル",
+      "about.card1.text": "GitHub Pagesへ最短で公開できます。",
+      "about.card2.title": "ネオンサイバーの統一感",
+      "about.card2.text": "ダーク基調で、先進的な世界観を演出できます。",
+      "about.card3.title": "将来拡張しやすい",
+      "about.card3.text": "AI連携やAPI接続を後から追加しやすい構造です。",
+
+      "tracks.badge": "ミュージックプレイヤーUI",
+      "tracks.title": "トラック",
+      "tracks.lead": "自動再生は無効です。再生ボタンを押してください。",
+      "tracks.trackTitle": "Lupinus — Neon Drift",
+      "tracks.trackMeta": "AI Music • Night City",
+      "tracks.demo": "デモ",
+      "tracks.volume": "音量",
+
+      "player.play": "再生",
+      "player.pause": "一時停止",
+      "player.mute": "ミュート",
+      "player.unmute": "ミュート解除",
+      "player.ready": "再生準備OK。再生ボタンを押してください。",
+      "player.missing": "bgm.mp3 が見つかりません。index.html と同じ場所に置いてください。",
+      "player.playError": "音声を再生できませんでした。bgm.mp3 を確認してください。",
+
+      "pricing.badge": "料金",
+      "pricing.title": "シンプルでわかりやすい料金。",
+      "pricing.lead": "まずは無料で、必要になったら拡張できます。",
+      "pricing.free.title": "Free",
+      "pricing.free.text": "1ファイル構成と基本UIを利用できます。",
+      "pricing.plus.title": "Forge+",
+      "pricing.plus.text": "拡張セクションと上位プリセットを追加。",
+      "pricing.studio.title": "Studio",
+      "pricing.studio.text": "チーム運用やブランド管理向け機能。",
+
+      "contact.badge": "お問い合わせ",
+      "contact.title": "いっしょに、印象に残るサイトを。",
+      "contact.lead": "フォームはUIのみです。送信機能は後から接続できます。",
+      "contact.nameLabel": "お名前",
+      "contact.namePlaceholder": "お名前を入力",
+      "contact.emailLabel": "メール",
+      "contact.emailPlaceholder": "you@example.com",
+      "contact.msgLabel": "メッセージ",
+      "contact.msgPlaceholder": "ご相談内容を入力してください",
+      "contact.send": "送信",
+
+      "footer.subtitle": "1ファイル完結のサイバー系プロダクトサイト",
+      "footer.text": "速さ・品質・世界観を両立したいクリエイター向けに設計しています。",
+      "modal.preview": "プレビュー",
+
+      "status.ready": "準備完了。",
+      "status.generated": "生成しました。",
+      "status.copied": "クリップボードにコピーしました。",
+      "status.copyFailed": "コピーに失敗しました。手動でコピーしてください。",
+      "status.downloaded": "index.html をダウンロードしました。",
+      "status.contactDemo": "デモフォームです。送信機能は後から追加できます。",
+      "status.previewNeedGenerate": "先に生成してからプレビューしてください。",
+      "status.reset": "リセットしました。"
+    }
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  const state = {
+    lang: "en",
+    statusKey: "status.ready",
+    playerStatusKey: "player.ready",
+    modalUrl: "",
+    audioMissing: false
+  };
+
+  const ROUTES = ["home","about","tracks","pricing","contact"];
+
+  // ✅ 追加：時間表示（あなたのコードに無くてエラーになってた）
+  function formatTime(sec){
+    if(!isFinite(sec) || sec < 0) return "0:00";
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return m + ":" + String(s).padStart(2, "0");
+  }
+
+  function t(key){
+    return (i18n[state.lang] && i18n[state.lang][key]) || key;
+  }
+
+  function applyI18n(){
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      el.textContent = t(key);
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      el.setAttribute("placeholder", t(key));
+    });
+
+    // ✅ すでに入っててOK：HTML lang更新
+    document.documentElement.lang = state.lang;
+
+    updateLanguageToggle();
+    updatePlayerButtons();
+    setStatus(state.statusKey, false);
+    setPlayerStatus(state.playerStatusKey, false);
+    syncRouteLabels();
+  }
+
+  function setLanguage(lang){
+    state.lang = (lang === "ja") ? "ja" : "en";
+    localStorage.setItem("lupinus_lang", state.lang);
+    applyI18n();
+  }
+
+  // ✅ 改善：aria-pressed対応（プロ仕様）
+  function updateLanguageToggle(){
+    $("langEn").classList.toggle("active", state.lang === "en");
+    $("langJa").classList.toggle("active", state.lang === "ja");
+    $("langEn").setAttribute("aria-pressed", state.lang === "en" ? "true" : "false");
+    $("langJa").setAttribute("aria-pressed", state.lang === "ja" ? "true" : "false");
+  }
+
+  function setStatus(key, remember = true){
+    if(remember) state.statusKey = key;
+    $("statusText").textContent = t(key);
+  }
+
+  function setPlayerStatus(key, remember = true){
+    if(remember) state.playerStatusKey = key;
+    $("playerStatus").textContent = t(key);
+  }
+
+  function normalizeRoute(hash){
+    const route = String(hash || "").replace(/^#/, "");
+    return ROUTES.includes(route) ? route : "home";
+  }
+
+  function applyRoute(route, updateHash = true){
+    const safe = ROUTES.includes(route) ? route : "home";
+
+    document.querySelectorAll("[data-route-section]").forEach(sec => {
+      const active = sec.getAttribute("data-route-section") === safe;
+      sec.classList.toggle("active", active);
+      sec.setAttribute("aria-hidden", active ? "false" : "true");
+    });
+
+    document.querySelectorAll(".nav a[data-route]").forEach(link => {
+      link.classList.toggle("active", link.getAttribute("data-route") === safe);
+    });
+
+    if(updateHash && location.hash !== "#" + safe){
+      location.hash = safe;
+    }
+
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function syncRouteLabels(){
+    document.querySelectorAll(".nav a[data-route]").forEach(link => {
+      const route = link.getAttribute("data-route");
+      link.textContent = t("nav." + route);
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function getSnapshotHtml(){
+    const output = $("outputCode");
+    const prev = output.value;
+    output.value = "";
+    const html = "<!doctype html>\n" + document.documentElement.outerHTML;
+    output.value = prev;
+    return html;
+  }
+
+  function generateSnapshot(){
+    const prompt = $("promptInput").value.trim();
+    const type = $("siteType").value;
+    const theme = $("themeMode").value;
+
+    const snapshot = getSnapshotHtml();
+    const header =
+`<!-- Prompt: ${escapeHtml(prompt || "-")} -->
+<!-- Type: ${escapeHtml(type)} -->
+<!-- Theme: ${escapeHtml(theme)} -->
+`;
+    $("outputCode").value = header + snapshot;
+    setStatus("status.generated");
+  }
+
+  async function copyOutput(){
+    const text = $("outputCode").value || getSnapshotHtml();
+    try{
+      await navigator.clipboard.writeText(text);
+      setStatus("status.copied");
+    }catch(_){
+      $("outputCode").focus();
+      $("outputCode").select();
+      const ok = document.execCommand("copy");
+      if(ok) setStatus("status.copied");
+      else setStatus("status.copyFailed");
+    }
+  }
+
+  function downloadOutput(){
+    const text = $("outputCode").value || getSnapshotHtml();
+    const blob = new Blob([text], {type:"text/html"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "index.html";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    setStatus("status.downloaded");
+  }
+
+  function openPreview(){
+    const text = $("outputCode").value || getSnapshotHtml();
+    if(!text.trim()){
+      setStatus("status.previewNeedGenerate");
+      return;
+    }
+    const blob = new Blob([text], {type:"text/html"});
+    state.modalUrl = URL.createObjectURL(blob);
+    $("previewFrame").src = state.modalUrl;
+    $("modal").setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    $("btnCloseModal").focus();
+  }
+
+  function closePreview(){
+    $("modal").setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    $("previewFrame").src = "about:blank";
+    if(state.modalUrl){
+      URL.revokeObjectURL(state.modalUrl);
+      state.modalUrl = "";
+    }
+  }
+
+  function resetOutput(){
+    $("outputCode").value = "";
+    setStatus("status.reset");
+  }
+
+  const audio = new Audio("bgm.mp3");
+  audio.loop = true;
+  audio.preload = "metadata";
+  audio.volume = 0.8;
+
+  function updatePlayerButtons(){
+    $("playText").textContent = audio.paused ? t("player.play") : t("player.pause");
+    $("muteText").textContent = audio.muted ? t("player.unmute") : t("player.mute");
+    $("playIcon").textContent = audio.paused ? "▶" : "⏸";
+    $("muteIcon").textContent = audio.muted ? "🔇" : "🔊";
+    $("volText").textContent = Math.round(audio.volume * 100) + "%";
+  }
+
+  function safePlay(){
+    if(state.audioMissing){
+      setPlayerStatus("player.missing");
+      return;
+    }
+    if(audio.paused){
+      audio.play().then(() => {
+        setPlayerStatus("player.ready");
+        updatePlayerButtons();
+      }).catch(() => {
+        setPlayerStatus("player.playError");
+      });
+    }else{
+      audio.pause();
+      updatePlayerButtons();
+    }
+  }
+
+  function toggleMute(){
+    audio.muted = !audio.muted;
+    updatePlayerButtons();
+  }
+
+  function initAudio(){
+    audio.addEventListener("error", () => {
+      state.audioMissing = true;
+      setPlayerStatus("player.missing");
+    });
+
+    audio.addEventListener("loadedmetadata", () => {
+      state.audioMissing = false;
+      $("durTime").textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      if(!isFinite(audio.duration) || audio.duration <= 0) return;
+      $("seek").value = String((audio.currentTime / audio.duration) * 100);
+      $("curTime").textContent = formatTime(audio.currentTime);
+      $("durTime").textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("play", updatePlayerButtons);
+    audio.addEventListener("pause", updatePlayerButtons);
+  }
+
+  function bindEvents(){
+    window.addEventListener("hashchange", () => {
+      applyRoute(normalizeRoute(location.hash), false);
+    });
+
+    $("langEn").addEventListener("click", () => setLanguage("en"));
+    $("langJa").addEventListener("click", () => setLanguage("ja"));
+
+    $("btnScrollForge").addEventListener("click", () => {
+      applyRoute("home");
+      setTimeout(() => document.getElementById("exportTools").scrollIntoView({behavior:"smooth"}), 0);
+    });
+
+    $("btnGenerate").addEventListener("click", generateSnapshot);
+    $("btnCopyOutput").addEventListener("click", copyOutput);
+    $("btnDownload").addEventListener("click", downloadOutput);
+    $("btnPreview").addEventListener("click", openPreview);
+    $("btnCloseModal").addEventListener("click", closePreview);
+    $("btnReset").addEventListener("click", resetOutput);
+
+    $("modal").addEventListener("click", (e) => {
+      if(e.target === $("modal")) closePreview();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && $("modal").getAttribute("aria-hidden") === "false"){
+        closePreview();
+      }
+    });
+
+    $("btnContactSend").addEventListener("click", () => {
+      setStatus("status.contactDemo");
+    });
+
+    $("playBtn").addEventListener("click", safePlay);
+    $("muteBtn").addEventListener("click", toggleMute);
+
+    $("volume").addEventListener("input", () => {
+      audio.volume = Number($("volume").value);
+      if(audio.volume === 0) audio.muted = true;
+      else if(audio.muted) audio.muted = false;
+      updatePlayerButtons();
+    });
+
+    $("seek").addEventListener("input", () => {
+      if(!isFinite(audio.duration) || audio.duration <= 0) return;
+      const pct = Number($("seek").value) / 100;
+      audio.currentTime = pct * audio.duration;
+    });
+  }
+
+  function init(){
+    const savedLang = localStorage.getItem("lupinus_lang");
+    state.lang = (savedLang === "ja") ? "ja" : "en";
+
+    if(!location.hash || !ROUTES.includes(location.hash.replace("#",""))){
+      location.hash = "#home";
+    }else{
+      applyRoute(normalizeRoute(location.hash), false);
+    }
+
+    bindEvents();
+    initAudio();
+    applyI18n();
+
+    setStatus("status.ready");
+    setPlayerStatus("player.ready");
+    updatePlayerButtons();
+
+    $("year").textContent = new Date().getFullYear();
+  }
+
+  init();
+</script>
+</body>
+</html>

@@ -8,20 +8,15 @@
   <meta name="theme-color" content="#070a12" />
   <style>
     :root{
-      --bg:#070a12;
-      --bg2:#050611;
+      --bg:#070a12; --bg2:#050611;
       --panel:rgba(255,255,255,.06);
       --panel-soft:rgba(255,255,255,.04);
       --border:rgba(255,255,255,.14);
       --text:rgba(255,255,255,.94);
       --muted:rgba(255,255,255,.72);
-      --pink:#ff2aa6;
-      --blue:#2a6bff;
-      --cyan:#29ffd6;
+      --pink:#ff2aa6; --blue:#2a6bff; --cyan:#29ffd6;
       --shadow:0 18px 60px rgba(0,0,0,.55);
-      --radius:20px;
-      --radius-lg:26px;
-      --max:1140px;
+      --radius:20px; --radius-lg:26px; --max:1140px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -90,7 +85,9 @@
     .lang-toggle button{
       border:0;background:transparent;
       padding:8px 12px;cursor:pointer;font-size:12px;
-      color:rgba(255,255,255,.75);min-width:48px;
+      color:rgba(255,255,255,.75);
+      min-width:72px; /* English / 日本語でも崩れにくい */
+      white-space:nowrap;
     }
     .lang-toggle button.active{
       color:#fff;
@@ -192,7 +189,6 @@
       background:rgba(0,0,0,.24);color:rgba(255,255,255,.94);
       padding:12px;outline:none;
     }
-    input[type="text"]:focus, input[type="email"]:focus{border-color:rgba(42,107,255,.44);box-shadow:0 0 0 4px rgba(42,107,255,.13)}
 
     .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
     .row .left,.row .right{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -222,14 +218,6 @@
       box-shadow:var(--shadow);
       overflow:hidden;position:relative;
     }
-    .player::before{
-      content:"";position:absolute;inset:0;
-      background:
-        radial-gradient(520px 240px at 25% 10%, rgba(255,42,166,.12), transparent 60%),
-        radial-gradient(520px 240px at 80% 20%, rgba(42,107,255,.12), transparent 60%),
-        radial-gradient(540px 260px at 55% 110%, rgba(41,255,214,.09), transparent 65%);
-      pointer-events:none;
-    }
     .player-inner{position:relative;padding:16px}
     .track{display:flex;gap:12px;align-items:center;padding:6px 2px 14px;border-bottom:1px solid rgba(255,255,255,.10);margin-bottom:12px}
     .art{
@@ -251,8 +239,6 @@
       display:inline-flex;align-items:center;gap:8px;
       border-radius:14px;padding:10px 12px;min-height:44px;
     }
-    .icon-btn:hover{transform:translateY(-1px);border-color:rgba(255,42,166,.35);background:rgba(255,255,255,.08)}
-
     .bar{flex:1;min-width:190px;display:flex;flex-direction:column;gap:8px}
     .time{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.72)}
     input[type="range"]{width:100%;accent-color:var(--pink);cursor:pointer}
@@ -263,7 +249,6 @@
       font-size:12px;color:rgba(255,255,255,.82);
       display:inline-flex;align-items:center;gap:8px;
     }
-
     .player-status{
       margin:12px 0 0;font-size:13px;color:rgba(255,255,255,.8);
       border:1px solid rgba(255,255,255,.12);
@@ -296,13 +281,6 @@
       .vol{min-width:100%}
       .topbar-inner{justify-content:center}
     }
-    @media (max-width:640px){
-      .container{width:min(var(--max), calc(100% - 26px))}
-      .btn{padding:10px 12px}
-      .icon-btn{padding:10px}
-      h1{font-size:clamp(28px,9vw,44px)}
-      h2{font-size:22px}
-    }
   </style>
 </head>
 
@@ -328,9 +306,10 @@
 
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
         <div class="lang-toggle" role="group" aria-label="Language switch">
-          <button id="langEn" type="button" aria-pressed="true">EN</button>
-          <button id="langJa" type="button" aria-pressed="false">JA</button>
+          <button id="langEn" type="button" aria-pressed="true" data-i18n="lang.en">English</button>
+          <button id="langJa" type="button" aria-pressed="false" data-i18n="lang.ja">日本語</button>
         </div>
+
         <button class="btn btn-primary" id="btnScrollForge" type="button" aria-label="Open export tools">
           <span aria-hidden="true">⚒</span><span data-i18n="top.export">Export</span>
         </button>
@@ -355,18 +334,10 @@
                 Build and ship a polished cyberpunk website from one index.html for GitHub Pages. Clean structure, export tools, and responsive layout included.
               </p>
               <div class="actions">
-                <button class="btn btn-primary" id="btnGenerate" type="button">
-                  <span aria-hidden="true">✨</span><span data-i18n="btn.generate">Generate</span>
-                </button>
-                <button class="btn" id="btnCopyOutput" type="button">
-                  <span aria-hidden="true">📋</span><span data-i18n="btn.copy">Copy</span>
-                </button>
-                <button class="btn" id="btnDownload" type="button">
-                  <span aria-hidden="true">⬇</span><span data-i18n="btn.download">Download</span>
-                </button>
-                <button class="btn" id="btnPreview" type="button">
-                  <span aria-hidden="true">👁</span><span data-i18n="btn.preview">Preview</span>
-                </button>
+                <button class="btn btn-primary" id="btnGenerate" type="button"><span aria-hidden="true">✨</span><span data-i18n="btn.generate">Generate</span></button>
+                <button class="btn" id="btnCopyOutput" type="button"><span aria-hidden="true">📋</span><span data-i18n="btn.copy">Copy</span></button>
+                <button class="btn" id="btnDownload" type="button"><span aria-hidden="true">⬇</span><span data-i18n="btn.download">Download</span></button>
+                <button class="btn" id="btnPreview" type="button"><span aria-hidden="true">👁</span><span data-i18n="btn.preview">Preview</span></button>
               </div>
               <p class="hint" data-i18n="home.tip">Tip: Generate creates a full single-file snapshot.</p>
             </div>
@@ -405,9 +376,7 @@
                   <div class="status" id="statusLine" aria-live="polite" aria-atomic="true">
                     <span aria-hidden="true">🧩</span><span id="statusText"></span>
                   </div>
-                  <button class="btn" id="btnReset" type="button">
-                    <span aria-hidden="true">🧼</span><span data-i18n="btn.reset">Reset</span>
-                  </button>
+                  <button class="btn" id="btnReset" type="button"><span aria-hidden="true">🧼</span><span data-i18n="btn.reset">Reset</span></button>
                 </div>
               </div>
 
@@ -417,7 +386,6 @@
               </div>
             </div>
           </aside>
-
         </div>
       </section>
     </div>
@@ -434,18 +402,9 @@
             One file, clean architecture, and ready-to-extend frontend behavior.
           </p>
           <div class="smallgrid">
-            <div class="mini">
-              <h3 data-i18n="about.card1.title">Single-file simplicity</h3>
-              <p data-i18n="about.card1.text">Deploy quickly on GitHub Pages with minimal friction.</p>
-            </div>
-            <div class="mini">
-              <h3 data-i18n="about.card2.title">Cyberpunk identity</h3>
-              <p data-i18n="about.card2.text">Dark neon visual system for a modern global look.</p>
-            </div>
-            <div class="mini">
-              <h3 data-i18n="about.card3.title">Future-ready</h3>
-              <p data-i18n="about.card3.text">Easy to connect with AI, APIs, and advanced workflows later.</p>
-            </div>
+            <div class="mini"><h3 data-i18n="about.card1.title">Single-file simplicity</h3><p data-i18n="about.card1.text">Deploy quickly on GitHub Pages with minimal friction.</p></div>
+            <div class="mini"><h3 data-i18n="about.card2.title">Cyberpunk identity</h3><p data-i18n="about.card2.text">Dark neon visual system for a modern global look.</p></div>
+            <div class="mini"><h3 data-i18n="about.card3.title">Future-ready</h3><p data-i18n="about.card3.text">Easy to connect with AI, APIs, and advanced workflows later.</p></div>
           </div>
         </div>
       </article>
@@ -516,21 +475,9 @@
           <p class="lead" data-i18n="pricing.lead">Start free and upgrade as your brand grows.</p>
 
           <div class="pricing-grid">
-            <div class="price">
-              <h3 data-i18n="pricing.free.title">Free</h3>
-              <strong>$0</strong>
-              <p data-i18n="pricing.free.text">Single-file setup and core UI blocks.</p>
-            </div>
-            <div class="price">
-              <h3 data-i18n="pricing.plus.title">Forge+</h3>
-              <strong>$9</strong>
-              <p data-i18n="pricing.plus.text">Extended sections and premium presets.</p>
-            </div>
-            <div class="price">
-              <h3 data-i18n="pricing.studio.title">Studio</h3>
-              <strong>$29</strong>
-              <p data-i18n="pricing.studio.text">Team-ready workflows and brand system tools.</p>
-            </div>
+            <div class="price"><h3 data-i18n="pricing.free.title">Free</h3><strong>$0</strong><p data-i18n="pricing.free.text">Single-file setup and core UI blocks.</p></div>
+            <div class="price"><h3 data-i18n="pricing.plus.title">Forge+</h3><strong>$9</strong><p data-i18n="pricing.plus.text">Extended sections and premium presets.</p></div>
+            <div class="price"><h3 data-i18n="pricing.studio.title">Studio</h3><strong>$29</strong><p data-i18n="pricing.studio.text">Team-ready workflows and brand system tools.</p></div>
           </div>
         </div>
       </article>
@@ -548,17 +495,14 @@
           <div class="contact-form">
             <label for="name" data-i18n="contact.nameLabel">Name</label>
             <input id="name" type="text" data-i18n-placeholder="contact.namePlaceholder" placeholder="Your name" />
-
             <div style="height:10px"></div>
 
             <label for="email" data-i18n="contact.emailLabel">Email</label>
             <input id="email" type="email" data-i18n-placeholder="contact.emailPlaceholder" placeholder="you@example.com" />
-
             <div style="height:10px"></div>
 
             <label for="msg" data-i18n="contact.msgLabel">Message</label>
             <textarea id="msg" data-i18n-placeholder="contact.msgPlaceholder" placeholder="Tell us about your project"></textarea>
-
             <div style="height:10px"></div>
 
             <button class="btn btn-primary" id="btnContactSend" type="button">
@@ -598,9 +542,7 @@
         </div>
         <div style="margin-left:10px;color:rgba(255,255,255,.8);font-size:12px;letter-spacing:.12em;text-transform:uppercase" data-i18n="modal.preview">Preview</div>
       </div>
-      <button class="btn" id="btnCloseModal" type="button">
-        <span aria-hidden="true">✖</span><span data-i18n="btn.close">Close</span>
-      </button>
+      <button class="btn" id="btnCloseModal" type="button"><span aria-hidden="true">✖</span><span data-i18n="btn.close">Close</span></button>
     </div>
     <iframe id="previewFrame" title="Generated preview"></iframe>
   </div>
@@ -609,6 +551,9 @@
 <script>
   const i18n = {
     en: {
+      "lang.en": "English",
+      "lang.ja": "Japanese",
+
       "brand.tagline": "Build premium web experiences.",
       "nav.home": "Home",
       "nav.about": "About",
@@ -704,6 +649,9 @@
       "status.reset": "Reset completed."
     },
     ja: {
+      "lang.en": "English",
+      "lang.ja": "日本語",
+
       "brand.tagline": "洗練されたWeb体験を、すばやく。",
       "nav.home": "ホーム",
       "nav.about": "概要",
@@ -802,17 +750,9 @@
 
   const $ = (id) => document.getElementById(id);
 
-  const state = {
-    lang: "en",
-    statusKey: "status.ready",
-    playerStatusKey: "player.ready",
-    modalUrl: "",
-    audioMissing: false
-  };
-
+  const state = { lang:"en", statusKey:"status.ready", playerStatusKey:"player.ready", modalUrl:"", audioMissing:false };
   const ROUTES = ["home","about","tracks","pricing","contact"];
 
-  // ✅ 追加：時間表示（あなたのコードに無くてエラーになってた）
   function formatTime(sec){
     if(!isFinite(sec) || sec < 0) return "0:00";
     const m = Math.floor(sec / 60);
@@ -820,9 +760,7 @@
     return m + ":" + String(s).padStart(2, "0");
   }
 
-  function t(key){
-    return (i18n[state.lang] && i18n[state.lang][key]) || key;
-  }
+  function t(key){ return (i18n[state.lang] && i18n[state.lang][key]) || key; }
 
   function applyI18n(){
     document.querySelectorAll("[data-i18n]").forEach(el => {
@@ -834,7 +772,6 @@
       el.setAttribute("placeholder", t(key));
     });
 
-    // ✅ すでに入っててOK：HTML lang更新
     document.documentElement.lang = state.lang;
 
     updateLanguageToggle();
@@ -850,7 +787,6 @@
     applyI18n();
   }
 
-  // ✅ 改善：aria-pressed対応（プロ仕様）
   function updateLanguageToggle(){
     $("langEn").classList.toggle("active", state.lang === "en");
     $("langJa").classList.toggle("active", state.lang === "ja");
@@ -858,12 +794,12 @@
     $("langJa").setAttribute("aria-pressed", state.lang === "ja" ? "true" : "false");
   }
 
-  function setStatus(key, remember = true){
+  function setStatus(key, remember=true){
     if(remember) state.statusKey = key;
     $("statusText").textContent = t(key);
   }
 
-  function setPlayerStatus(key, remember = true){
+  function setPlayerStatus(key, remember=true){
     if(remember) state.playerStatusKey = key;
     $("playerStatus").textContent = t(key);
   }
@@ -873,7 +809,7 @@
     return ROUTES.includes(route) ? route : "home";
   }
 
-  function applyRoute(route, updateHash = true){
+  function applyRoute(route, updateHash=true){
     const safe = ROUTES.includes(route) ? route : "home";
 
     document.querySelectorAll("[data-route-section]").forEach(sec => {
@@ -886,11 +822,8 @@
       link.classList.toggle("active", link.getAttribute("data-route") === safe);
     });
 
-    if(updateHash && location.hash !== "#" + safe){
-      location.hash = safe;
-    }
-
-    window.scrollTo({ top: 0, behavior: "auto" });
+    if(updateHash && location.hash !== "#" + safe) location.hash = safe;
+    window.scrollTo({ top:0, behavior:"auto" });
   }
 
   function syncRouteLabels(){
@@ -970,13 +903,13 @@
     const blob = new Blob([text], {type:"text/html"});
     state.modalUrl = URL.createObjectURL(blob);
     $("previewFrame").src = state.modalUrl;
-    $("modal").setAttribute("aria-hidden", "false");
+    $("modal").setAttribute("aria-hidden","false");
     document.body.style.overflow = "hidden";
     $("btnCloseModal").focus();
   }
 
   function closePreview(){
-    $("modal").setAttribute("aria-hidden", "true");
+    $("modal").setAttribute("aria-hidden","true");
     document.body.style.overflow = "";
     $("previewFrame").src = "about:blank";
     if(state.modalUrl){
@@ -1012,9 +945,7 @@
       audio.play().then(() => {
         setPlayerStatus("player.ready");
         updatePlayerButtons();
-      }).catch(() => {
-        setPlayerStatus("player.playError");
-      });
+      }).catch(() => setPlayerStatus("player.playError"));
     }else{
       audio.pause();
       updatePlayerButtons();
@@ -1049,9 +980,7 @@
   }
 
   function bindEvents(){
-    window.addEventListener("hashchange", () => {
-      applyRoute(normalizeRoute(location.hash), false);
-    });
+    window.addEventListener("hashchange", () => applyRoute(normalizeRoute(location.hash), false));
 
     $("langEn").addEventListener("click", () => setLanguage("en"));
     $("langJa").addEventListener("click", () => setLanguage("ja"));
@@ -1068,19 +997,13 @@
     $("btnCloseModal").addEventListener("click", closePreview);
     $("btnReset").addEventListener("click", resetOutput);
 
-    $("modal").addEventListener("click", (e) => {
-      if(e.target === $("modal")) closePreview();
-    });
+    $("modal").addEventListener("click", (e) => { if(e.target === $("modal")) closePreview(); });
 
     document.addEventListener("keydown", (e) => {
-      if(e.key === "Escape" && $("modal").getAttribute("aria-hidden") === "false"){
-        closePreview();
-      }
+      if(e.key === "Escape" && $("modal").getAttribute("aria-hidden") === "false") closePreview();
     });
 
-    $("btnContactSend").addEventListener("click", () => {
-      setStatus("status.contactDemo");
-    });
+    $("btnContactSend").addEventListener("click", () => setStatus("status.contactDemo"));
 
     $("playBtn").addEventListener("click", safePlay);
     $("muteBtn").addEventListener("click", toggleMute);
